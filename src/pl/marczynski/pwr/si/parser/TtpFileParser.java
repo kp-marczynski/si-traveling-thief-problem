@@ -7,10 +7,7 @@ import pl.marczynski.pwr.si.TravelingThiefProblem;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public final class TtpFileParser {
@@ -37,7 +34,7 @@ public final class TtpFileParser {
                 }
                 line = fileReader.readLine();
             }
-            return finishParsing(basicData, cities, items);
+            return finishParsing(basicData, Objects.requireNonNull(cities), items);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +84,7 @@ public final class TtpFileParser {
             double xCoor = Double.parseDouble(splitedLine[1]);
             double yCoor = Double.parseDouble(splitedLine[2]);
 
-            cities.add(new City(cityIndex, xCoor, yCoor));
+            cities.add(new City(cityIndex, xCoor, yCoor, new LinkedList<>()));
         }
         return cities;
     }

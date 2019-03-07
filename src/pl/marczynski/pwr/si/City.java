@@ -7,12 +7,13 @@ public class City {
     private int cityIndex;
     private double xCoordinate;
     private double yCoordinate;
-    private List<Item> items;
+    private final List<Item> items;
 
-    public City(int cityIndex, double xCoordinate, double yCoordinate) {
+    public City(int cityIndex, double xCoordinate, double yCoordinate, List<Item> items) {
         this.cityIndex = cityIndex;
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
+        this.items = items;
     }
 
     public int getCityIndex() {
@@ -32,7 +33,7 @@ public class City {
     }
 
     public void setItems(List<Item> items) {
-        this.items = items;
+        this.items.addAll(items);
     }
 
     @Override

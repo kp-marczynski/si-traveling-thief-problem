@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 public class TravelingThiefProblem {
-    private String problemName;
-    private String knapsackDataType;
-    private int knapsackCapacity;
-    private double minSpeed;
-    private double maxSpeed;
-    private double rentingRatio;
-    private String edgeWeightType;
-    private List<City> cities;
-    private Map<City, Map<City, Double>> distancesBetweenCities;
+    private final String problemName;
+    private final String knapsackDataType;
+    private final int knapsackCapacity;
+    private final double minSpeed;
+    private final double maxSpeed;
+    private final double rentingRatio;
+    private final String edgeWeightType;
+    private final List<City> cities;
+    private final Map<City, Map<City, Double>> distancesBetweenCities;
 
     public TravelingThiefProblem(String problemName, String knapsackDataType, int knapsackCapacity, double minSpeed, double maxSpeed, double rentingRatio, String edgeWeightType, List<City> cities, Map<City, Map<City, Double>> distancesBetweenCities) {
         this.problemName = problemName;
