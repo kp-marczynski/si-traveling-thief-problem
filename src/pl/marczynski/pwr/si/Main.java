@@ -1,5 +1,7 @@
 package pl.marczynski.pwr.si;
 
+import pl.marczynski.pwr.si.parser.TtpFileParser;
+
 import java.io.*;
 
 public class Main {

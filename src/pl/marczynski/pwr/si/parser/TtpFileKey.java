@@ -1,4 +1,4 @@
-package pl.marczynski.pwr.si;
+package pl.marczynski.pwr.si.parser;
 
 public enum TtpFileKey {
     PROBLEM_NAME("PROBLEM NAME"),
