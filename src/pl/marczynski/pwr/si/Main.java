@@ -8,10 +8,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         TravelingThiefProblem ttp = TtpFileParser.parseFile("easy_0.ttp");
-        TspGenotype tspGenotype = TspGenotype.createShuffledGenotype(ttp.getCities());
-        TspGenotypeEvaluator evaluator = new TspGenotypeEvaluator(ttp.getDistancesBetweenCities());
-        System.out.println(tspGenotype);
-        System.out.println(evaluator.evaluate(tspGenotype));
+        Genotype genotype = Genotype.createShuffledGenotype(ttp.getCities());
+        GenotypeEvaluator evaluator = new GenotypeEvaluator(ttp);
+        System.out.println(genotype);
+        System.out.println(evaluator.evaluate(genotype));
+        System.out.println(ttp);
 
     }
 }

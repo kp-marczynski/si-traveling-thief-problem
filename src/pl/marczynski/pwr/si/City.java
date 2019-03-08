@@ -1,7 +1,9 @@
 package pl.marczynski.pwr.si;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class City {
     private int cityIndex;
@@ -34,6 +36,10 @@ public class City {
 
     public void setItems(List<Item> items) {
         this.items.addAll(items);
+    }
+
+    public Optional<Item> selectItem(double maxWeight) {
+        return items.stream().filter(item -> item.getWeight() <= maxWeight).max(Comparator.comparingInt(Item::getProfit));
     }
 
     @Override

@@ -68,7 +68,7 @@ public final class TtpFileParser {
     private static Double calculateDistance(City city, City innerCity) {
         double x = city.getxCoordinate() - innerCity.getxCoordinate();
         double y = city.getyCoordinate() - innerCity.getyCoordinate();
-        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        return Math.ceil(Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
     }
 
     private static List<City> parseCities(BufferedReader fileReader, int numberOfCities) throws IOException {
