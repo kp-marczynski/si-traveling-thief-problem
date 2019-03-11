@@ -1,4 +1,4 @@
-package pl.marczynski.pwr.si;
+package pl.marczynski.pwr.si.ttp;
 
 import java.util.Comparator;
 import java.util.List;

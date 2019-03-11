@@ -1,8 +1,8 @@
-package pl.marczynski.pwr.si.parser;
+package pl.marczynski.pwr.si.ttp.parser;
 
-import pl.marczynski.pwr.si.City;
-import pl.marczynski.pwr.si.Item;
-import pl.marczynski.pwr.si.TravelingThiefProblem;
+import pl.marczynski.pwr.si.ttp.City;
+import pl.marczynski.pwr.si.ttp.Item;
+import pl.marczynski.pwr.si.ttp.TravelingThiefProblem;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public final class TtpFileParser {
-    private static final String DATA_PATH = "src/resources/data/";
+    private static final String DATA_PATH = "./src/main/resources/data/";
 
     public static TravelingThiefProblem parseFile(String fileName) {
         Map<String, String> basicData = new HashMap<>();

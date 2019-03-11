@@ -1,4 +1,4 @@
-package pl.marczynski.pwr.si;
+package pl.marczynski.pwr.si.ttp;
 
 import javafx.util.Pair;
 
@@ -19,7 +19,7 @@ public class Genotype {
         return result;
     }
 
-    public static Genotype createMuttated(Genotype genotype) {
+    public static Genotype createMutated(Genotype genotype) {
         Genotype result = new Genotype(genotype.getCities());
         int first = (int) (new Random().nextFloat() * result.getSize() - 1);
         int second = (int) (new Random().nextFloat() * result.getSize() - 1);
