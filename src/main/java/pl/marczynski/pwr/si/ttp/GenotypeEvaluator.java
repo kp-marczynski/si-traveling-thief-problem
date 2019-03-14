@@ -22,9 +22,12 @@ public class GenotypeEvaluator {
 
 
     public double evaluate(Genotype genotype) {
-        String genotypeString = genotype.toString();
-        if (cachedResults.containsKey(genotypeString)) {
-            return cachedResults.get(genotypeString);
+//        String genotypeString = genotype.toString();
+//        if (cachedResults.containsKey(genotypeString)) {
+//            return cachedResults.get(genotypeString);
+//        }
+        if (genotype.hasCalculatedValue()) {
+            return genotype.getValue();
         }
         double roadTime = 0;
         double currentWeight = 0;
@@ -39,7 +42,7 @@ public class GenotypeEvaluator {
         }
         roadTime += distancesBetweenCities.get(genotype.getCities().get(genotype.getSize() - 1)).get(genotype.getCities().get(0));
         double result = currentValue - roadTime;
-        cachedResults.put(genotypeString, result);
+        genotype.setValue(result);
         return result;
     }
 

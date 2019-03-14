@@ -57,6 +57,10 @@ public class GenotypeTest {
         Pair<Genotype, Genotype> crossed = Genotype.createCrossed(firstParent, secondParent);
 
         //then
+        System.out.println(firstParent);
+        System.out.println(secondParent);
+        System.out.println(crossed.getKey());
+        System.out.println(crossed.getValue());
         for (City city : firstParent.getCities()) {
             assertTrue(crossed.getKey().getCities().contains(city));
             assertTrue(crossed.getValue().getCities().contains(city));
