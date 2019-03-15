@@ -2,8 +2,6 @@ package pl.marczynski.pwr.si.ttp;
 
 import pl.marczynski.pwr.si.ttp.genetic.GeneticAlgorithm;
 
-import java.io.IOException;
-
 public class Main {
 
     public static void main(String[] args) {

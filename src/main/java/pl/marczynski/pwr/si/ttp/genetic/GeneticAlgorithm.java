@@ -53,15 +53,16 @@ public class GeneticAlgorithm {
             directory.mkdirs();
         }
         int numberOfFilesInDirectory = directory.listFiles().length;
-        StringBuilder fileName = new StringBuilder();
-        fileName.append(resultPath)
+
+        String fileName = new StringBuilder().append(resultPath)
                 .append("/genSize").append(numberOfGenerations)
                 .append("-popSize").append(populationsSize)
                 .append("-px").append(crossProbability)
                 .append("-pm").append(mutationProbability)
                 .append("-tour").append(tournamentSize)
-                .append("-v").append(numberOfFilesInDirectory).append(".csv");
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName.toString()))) {
+                .append("-v").append(numberOfFilesInDirectory).append(".csv").toString();
+
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName))) {
             bufferedWriter.write(Generation.getCsvHeader());
             for (Generation generation : generations) {
                 bufferedWriter.newLine();
