@@ -47,20 +47,25 @@ public class GeneticAlgorithm {
     }
 
     public void saveToFile() {
-        String resultPath = RESULTS_PATH + problemDescription.getFileName();
+        String baseName = new StringBuilder()
+                .append(problemDescription.getFileName())
+                .append("-genSize_").append(numberOfGenerations)
+                .append("-popSize_").append(populationsSize)
+                .append("-px_").append(crossProbability)
+                .append("-pm_").append(mutationProbability)
+                .append("-tour_").append(tournamentSize)
+                .toString();
+
+        String resultPath = RESULTS_PATH + baseName;
         File directory = new File(resultPath);
         if (!directory.exists() || !directory.isDirectory()) {
             directory.mkdirs();
         }
         int numberOfFilesInDirectory = directory.listFiles().length;
 
-        String fileName = new StringBuilder().append(resultPath)
-                .append("/").append(problemDescription.getFileName())
-                .append("-genSize_").append(numberOfGenerations)
-                .append("-popSize_").append(populationsSize)
-                .append("-px_").append(crossProbability)
-                .append("-pm_").append(mutationProbability)
-                .append("-tour_").append(tournamentSize)
+        String fileName = new StringBuilder()
+                .append(resultPath).append("/")
+                .append(baseName)
                 .append("-v_").append(numberOfFilesInDirectory).append(".csv").toString();
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName))) {
