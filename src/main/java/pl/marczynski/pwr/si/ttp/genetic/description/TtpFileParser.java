@@ -14,7 +14,7 @@ public final class TtpFileParser {
 
     static ProblemDescription parseFile(String fileName) {
         Map<String, String> basicData = new HashMap<>();
-        try (BufferedReader fileReader = new BufferedReader(new FileReader(DATA_PATH + fileName))) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(DATA_PATH + fileName + ".ttp"))) {
             List<City> cities = null;
             List<Item> items = null;
             String line = fileReader.readLine();
@@ -33,14 +33,14 @@ public final class TtpFileParser {
                 }
                 line = fileReader.readLine();
             }
-            return finishParsing(basicData, Objects.requireNonNull(cities), items);
+            return finishParsing(fileName, basicData, Objects.requireNonNull(cities), items);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private static ProblemDescription finishParsing(Map<String, String> basicData, List<City> cities, List<Item> items) {
+    private static ProblemDescription finishParsing(String fileName, Map<String, String> basicData, List<City> cities, List<Item> items) {
         Map<City, Map<City, Double>> distancesBetweenCities = new HashMap<>();
         for (City city : cities) {
             city.setItems(items.stream().filter(item -> item.getCityIndex() == city.getCityIndex()).collect(Collectors.toList()));
@@ -61,7 +61,7 @@ public final class TtpFileParser {
         String edgeWeightType = basicData.get(TtpFileKey.EDGE_WEIGHT_TYPE.getValue());
 
 
-        return new ProblemDescription(problemName, knapsackDataType, knapsackCapacity, minSpeed, maxSpeed, rentingRatio, edgeWeightType, cities, distancesBetweenCities);
+        return new ProblemDescription(fileName, problemName, knapsackDataType, knapsackCapacity, minSpeed, maxSpeed, rentingRatio, edgeWeightType, cities, distancesBetweenCities);
     }
 
     private static Double calculateDistance(City city, City innerCity) {

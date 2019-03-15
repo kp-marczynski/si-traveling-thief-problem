@@ -10,7 +10,7 @@ public class TtpFileParserTest {
     @Test
     public void shouldImportTrivial() {
         //given
-        String ttpFileName = "trivial_0.ttp";
+        String ttpFileName = "trivial_0";
         String problemName = "berlin52-TTP_trivialized";
         String knapsackDataType = "bounded strongly corr";
         int dimensions = 10;

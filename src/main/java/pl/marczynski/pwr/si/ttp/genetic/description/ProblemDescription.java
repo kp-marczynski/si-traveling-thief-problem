@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ProblemDescription {
+    private final String fileName;
     private final String problemName;
     private final String knapsackDataType;
     private final int knapsackCapacity;
@@ -16,7 +17,8 @@ public class ProblemDescription {
     private final List<City> cities;
     private final Map<City, Map<City, Double>> distancesBetweenCities;
 
-    public ProblemDescription(String problemName, String knapsackDataType, int knapsackCapacity, double minSpeed, double maxSpeed, double rentingRatio, String edgeWeightType, List<City> cities, Map<City, Map<City, Double>> distancesBetweenCities) {
+    public ProblemDescription(String fileName, String problemName, String knapsackDataType, int knapsackCapacity, double minSpeed, double maxSpeed, double rentingRatio, String edgeWeightType, List<City> cities, Map<City, Map<City, Double>> distancesBetweenCities) {
+        this.fileName = fileName;
         this.problemName = problemName;
         this.knapsackDataType = knapsackDataType;
         this.knapsackCapacity = knapsackCapacity;
@@ -77,6 +79,10 @@ public class ProblemDescription {
 
     public List<City> getCities() {
         return cities;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public Map<City, Map<City, Double>> getDistancesBetweenCities() {

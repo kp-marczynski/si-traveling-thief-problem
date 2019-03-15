@@ -16,7 +16,7 @@ public class Generation {
     private final int tournamentSize;
     private final GenotypeEvaluator evaluator;
 
-    protected List<Genotype> population;
+    protected final List<Genotype> population;
 
     public Generation(int orderNumber, int populationSize, double crossProbability, double mutationProbability, int tournamentSize, GenotypeEvaluator evaluator) {
         this.populationSize = populationSize;
@@ -60,30 +60,35 @@ public class Generation {
         if (tournamentSize < 0) {
             throw new IllegalStateException("Tournament size can not be less than 0");
         }
-        if (tournamentSize == populationSize) {
-            sortPopulationDescending();
-            population = population.subList(0, populationSize);
-        } else if (tournamentSize == 0) {
-            Collections.shuffle(population);
-            population = population.subList(0, populationSize);
-        } else {
-            List<Genotype> source = new ArrayList<>(population);
-            List<Genotype> newPopulation = new ArrayList<>();
+        if (population.size() > populationSize) {
+            if (tournamentSize == populationSize) {
+                sortPopulationDescending();
+                population.removeAll(population.subList(populationSize, population.size() - 1));
+//            population = population.subList(0, populationSize);
+            } else if (tournamentSize == 0) {
+                Collections.shuffle(population);
+                population.removeAll(population.subList(populationSize, population.size() - 1));
+//            population = population.subList(0, populationSize);
+            } else {
+                List<Genotype> source = new ArrayList<>(population);
+                List<Genotype> newPopulation = new ArrayList<>();
 
-            while (newPopulation.size() < populationSize) {
-                int selectedIndex = random.nextInt(source.size());
-                Genotype selected = source.get(selectedIndex);
-                for (int i = 0; i < tournamentSize - 1; ++i) {
-                    int index = random.nextInt(source.size());
-                    if (evaluator.evaluate(source.get(index)) > evaluator.evaluate(selected)) {
-                        selected = source.get(index);
-                        selectedIndex = index;
+                while (newPopulation.size() < populationSize) {
+                    int selectedIndex = random.nextInt(source.size());
+                    Genotype selected = source.get(selectedIndex);
+                    for (int i = 0; i < tournamentSize - 1; ++i) {
+                        int index = random.nextInt(source.size());
+                        if (evaluator.evaluate(source.get(index)) > evaluator.evaluate(selected)) {
+                            selected = source.get(index);
+                            selectedIndex = index;
+                        }
                     }
+                    newPopulation.add(selected);
+                    source.remove(selectedIndex);
                 }
-                newPopulation.add(selected);
-                source.remove(selectedIndex);
+                population.clear();
+                population.addAll(newPopulation);
             }
-            population = newPopulation;
         }
     }
 
@@ -150,5 +155,17 @@ public class Generation {
 
     public GenotypeEvaluator getEvaluator() {
         return evaluator;
+    }
+
+    public String getInCsvFormat() {
+        return new StringBuilder()
+                .append(orderNumber).append(",")
+                .append(getBestResult()).append(",")
+                .append(getAverageResult()).append(",")
+                .append(getWorstResult()).toString();
+    }
+
+    public static String getCsvHeader() {
+        return "Generation number,Best result,Average result,Worst result";
     }
 }

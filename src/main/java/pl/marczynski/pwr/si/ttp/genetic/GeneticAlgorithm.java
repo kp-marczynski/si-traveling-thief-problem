@@ -3,10 +3,15 @@ package pl.marczynski.pwr.si.ttp.genetic;
 import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 import pl.marczynski.pwr.si.ttp.genetic.generation.Generation;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GeneticAlgorithm {
+    private static final String RESULTS_PATH = "./src/main/resources/results/";
+
     private final int numberOfGenerations;
     private final int populationsSize;
     private final double crossProbability;
@@ -39,5 +44,32 @@ public class GeneticAlgorithm {
             System.out.println(generations.get(i));
         }
         System.out.println(generations.get(generations.size() - 1));
+    }
+
+    public void saveToFile() {
+        String resultPath = RESULTS_PATH + problemDescription.getFileName();
+        File directory = new File(resultPath);
+        if (!directory.exists() || !directory.isDirectory()) {
+            directory.mkdirs();
+        }
+        int numberOfFilesInDirectory = directory.listFiles().length;
+        StringBuilder fileName = new StringBuilder();
+        fileName.append(resultPath)
+                .append("/genSize").append(numberOfGenerations)
+                .append("-popSize").append(populationsSize)
+                .append("-px").append(crossProbability)
+                .append("-pm").append(mutationProbability)
+                .append("-tour").append(tournamentSize)
+                .append("-v").append(numberOfFilesInDirectory).append(".csv");
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName.toString()))) {
+            bufferedWriter.write(Generation.getCsvHeader());
+            for (Generation generation : generations) {
+                bufferedWriter.newLine();
+                bufferedWriter.write(generation.getInCsvFormat());
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 }

@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class GenotypeTest {
 
-    private final ProblemDescription problemDescription = ProblemDescription.getDescriptionFromFile("trivial_0.ttp");
+    private final ProblemDescription problemDescription = ProblemDescription.getDescriptionFromFile("trivial_0");
 
     @Test
     public void shouldCreateShuffledGenotype() {
