@@ -8,14 +8,14 @@ import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.Genotype;
 import java.util.*;
 
 public class Generation {
-    private static Random random = new Random();
-    private int orderNumber;
-    private int populationSize;
-    private double crossProbability;
-    private double mutationProbability;
-    private int tournamentSize;
-
+    private final static Random random = new Random();
+    private final int orderNumber;
+    private final int populationSize;
+    private final double crossProbability;
+    private final double mutationProbability;
+    private final int tournamentSize;
     private final GenotypeEvaluator evaluator;
+
     protected List<Genotype> population;
 
     public Generation(int orderNumber, int populationSize, double crossProbability, double mutationProbability, int tournamentSize, GenotypeEvaluator evaluator) {

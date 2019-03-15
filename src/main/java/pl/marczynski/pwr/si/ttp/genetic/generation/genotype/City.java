@@ -6,9 +6,9 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class City {
-    private int cityIndex;
-    private double xCoordinate;
-    private double yCoordinate;
+    private final int cityIndex;
+    private final double xCoordinate;
+    private final double yCoordinate;
     private final List<Item> items;
 
     public City(int cityIndex, double xCoordinate, double yCoordinate, List<Item> items) {

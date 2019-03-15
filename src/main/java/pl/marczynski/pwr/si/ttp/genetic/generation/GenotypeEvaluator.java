@@ -15,22 +15,16 @@ public class GenotypeEvaluator {
     private final int knapsackCapacity;
     private final double minSpeed;
     private final double maxSpeed;
-    private final Map<String, Double> cachedResults;
 
     public GenotypeEvaluator(ProblemDescription problemDescription) {
         this.distancesBetweenCities = problemDescription.getDistancesBetweenCities();
         this.knapsackCapacity = problemDescription.getKnapsackCapacity();
         this.minSpeed = problemDescription.getMinSpeed();
         this.maxSpeed = problemDescription.getMaxSpeed();
-        this.cachedResults = new HashMap<>();
     }
 
 
     public double evaluate(Genotype genotype) {
-//        String genotypeString = genotype.toString();
-//        if (cachedResults.containsKey(genotypeString)) {
-//            return cachedResults.get(genotypeString);
-//        }
         if (genotype.hasCalculatedValue()) {
             return genotype.getValue();
         }

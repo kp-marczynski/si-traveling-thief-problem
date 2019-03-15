@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public class Genotype {
     private final List<City> cities;
     private Double value = null;
-    private static Random random = new Random();
+    private final static Random random = new Random();
 
     private static final HashMap<Integer, Genotype> cachedGenotypes = new HashMap<>();
 
@@ -51,12 +51,12 @@ public class Genotype {
 
     public static Genotype createMutated(Genotype genotype) {
         List<City> result = new ArrayList<>(genotype.cities);
-        int first = random.nextInt(result.size());
-        int second = random.nextInt(result.size());
-        if (first == second) {
-            second = ++second % (result.size() - 1);
+        int firstIndex = random.nextInt(result.size());
+        int secondIndex = random.nextInt(result.size());
+        if (firstIndex == secondIndex) {
+            secondIndex = ++secondIndex % (result.size() - 1);
         }
-        Collections.swap(result, first, second);
+        Collections.swap(result, firstIndex, secondIndex);
         return getGenotype(result);
     }
 

@@ -3,10 +3,10 @@ package pl.marczynski.pwr.si.ttp.genetic.generation.genotype;
 import java.util.Objects;
 
 public class Item {
-    private int itemIndex;
-    private int profit;
-    private int weight;
-    private int cityIndex;
+    private final int itemIndex;
+    private final int profit;
+    private final int weight;
+    private final int cityIndex;
 
     public int getItemIndex() {
         return itemIndex;

@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GeneticAlgorithm {
-    private int numberOfGenerations;
-    private int populationsSize;
-    private double crossProbability;
-    private double mutationProbability;
-    private int tournamentSize;
-    private ProblemDescription problemDescription;
-    private List<Generation> generations;
+    private final int numberOfGenerations;
+    private final int populationsSize;
+    private final double crossProbability;
+    private final double mutationProbability;
+    private final int tournamentSize;
+    private final ProblemDescription problemDescription;
+    private final List<Generation> generations;
 
     private GeneticAlgorithm(int numberOfGenerations, int populationsSize, double crossProbability, double mutationProbability, int tournamentSize, ProblemDescription problemDescription) {
         this.numberOfGenerations = numberOfGenerations;
