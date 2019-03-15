@@ -15,14 +15,16 @@ public class Generation {
     private final double mutationProbability;
     private final int tournamentSize;
     private final GenotypeEvaluator evaluator;
+    private Genotype bestGenotype;
 
     protected final List<Genotype> population;
 
-    public Generation(int orderNumber, int populationSize, double crossProbability, double mutationProbability, int tournamentSize, GenotypeEvaluator evaluator) {
+    public Generation(int orderNumber, int populationSize, double crossProbability, double mutationProbability, int tournamentSize, GenotypeEvaluator evaluator, Genotype bestGenotype) {
         this.populationSize = populationSize;
         this.crossProbability = crossProbability;
         this.mutationProbability = mutationProbability;
         this.tournamentSize = tournamentSize;
+        this.bestGenotype = bestGenotype;
         this.population = new ArrayList<>();
         this.evaluator = evaluator;
         this.orderNumber = orderNumber;
@@ -30,14 +32,14 @@ public class Generation {
 
     public static Generation createFirstGeneration(int populationSize, double crossProbability, double mutationProbability, int tournamentSize, ProblemDescription ttp) {
         GenotypeEvaluator evaluator = new GenotypeEvaluator(ttp);
-        Generation firstGeneration = new Generation(1, populationSize, crossProbability, mutationProbability, tournamentSize, evaluator);
+        Generation firstGeneration = new Generation(1, populationSize, crossProbability, mutationProbability, tournamentSize, evaluator, null);
         firstGeneration.initializePopulation(ttp.getCities());
         firstGeneration.ageGeneration();
         return firstGeneration;
     }
 
     public static Generation createNextGeneration(Generation parentGeneration) {
-        Generation nextGeneration = new Generation(parentGeneration.orderNumber + 1, parentGeneration.populationSize, parentGeneration.crossProbability, parentGeneration.mutationProbability, parentGeneration.tournamentSize, parentGeneration.evaluator);
+        Generation nextGeneration = new Generation(parentGeneration.orderNumber + 1, parentGeneration.populationSize, parentGeneration.crossProbability, parentGeneration.mutationProbability, parentGeneration.tournamentSize, parentGeneration.evaluator, parentGeneration.bestGenotype);
         nextGeneration.population.addAll(parentGeneration.population);
         nextGeneration.ageGeneration();
         return nextGeneration;
@@ -45,7 +47,15 @@ public class Generation {
 
     private void initializePopulation(List<City> cities) {
         for (int i = 0; i < populationSize; i++) {
-            population.add(Genotype.createShuffledGenotype(cities));
+            Genotype shuffledGenotype = Genotype.createShuffledGenotype(cities);
+            updateBest(shuffledGenotype);
+            population.add(bestGenotype);
+        }
+    }
+
+    private void updateBest(Genotype candidate) {
+        if (bestGenotype == null || evaluator.evaluate(candidate) > evaluator.evaluate(bestGenotype)) {
+            bestGenotype = candidate;
         }
     }
 
@@ -69,7 +79,10 @@ public class Generation {
             } else {
                 List<Genotype> source = new ArrayList<>(population);
                 List<Genotype> newPopulation = new ArrayList<>();
-
+                if (bestGenotype != null) {
+                    newPopulation.add(bestGenotype);
+                    source.remove(bestGenotype);
+                }
                 while (newPopulation.size() < populationSize) {
                     int selectedIndex = random.nextInt(source.size());
                     Genotype selected = source.get(selectedIndex);
@@ -96,6 +109,9 @@ public class Generation {
                 Pair<Genotype, Genotype> crossed = Genotype.createCrossed(pair.getKey(), pair.getValue());
                 population.add(crossed.getKey());
                 population.add(crossed.getValue());
+
+                updateBest(crossed.getKey());
+                updateBest(crossed.getValue());
             }
         }
     }
@@ -114,7 +130,9 @@ public class Generation {
         List<Genotype> mutated = new ArrayList<>();
         for (Genotype genotype : population) {
             if (random.nextDouble() <= mutationProbability) {
-                mutated.add(Genotype.createMutated(genotype));
+                Genotype mutatedGenotype = Genotype.createMutated(genotype);
+                mutated.add(mutatedGenotype);
+                updateBest(mutatedGenotype);
             }
         }
         population.addAll(mutated);
@@ -128,8 +146,8 @@ public class Generation {
         return (a, b) -> (int) (evaluator.evaluate(a) - evaluator.evaluate(b));
     }
 
-    private double getBestResult() {
-        return population.stream().mapToDouble(evaluator::evaluate).max().getAsDouble();
+    protected double getBestResult() {
+        return evaluator.evaluate(bestGenotype);
     }
 
     private double getAverageResult() {

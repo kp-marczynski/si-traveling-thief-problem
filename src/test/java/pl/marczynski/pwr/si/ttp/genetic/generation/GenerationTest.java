@@ -3,6 +3,7 @@ package pl.marczynski.pwr.si.ttp.genetic.generation;
 import org.junit.Test;
 import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class GenerationTest {
@@ -23,4 +24,19 @@ public class GenerationTest {
         }
     }
 
+    @Test
+    public void bestGenotypeShouldBeEqualToBestInStream() {
+        //given
+        Generation firstGeneration = Generation.createFirstGeneration(100, 0.7, 0.01, 5, problemDescription);
+        Generation secondGeneration = Generation.createNextGeneration(firstGeneration);
+        GenotypeEvaluator evaluator = secondGeneration.getEvaluator();
+        double expectedMax = secondGeneration.population.stream().mapToDouble(evaluator::evaluate).max().getAsDouble();
+
+        //when
+        double bestResult = secondGeneration.getBestResult();
+
+        //then
+        assertEquals(expectedMax, bestResult, 0.001);
+
+    }
 }
