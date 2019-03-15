@@ -53,7 +53,6 @@ public class Generation {
         performSelection();
         performCrossover();
         performMutation();
-//        sortPopulationDescending();
     }
 
     private void performSelection() {
@@ -64,11 +63,9 @@ public class Generation {
             if (tournamentSize == populationSize) {
                 sortPopulationDescending();
                 population.removeAll(population.subList(populationSize, population.size() - 1));
-//            population = population.subList(0, populationSize);
             } else if (tournamentSize == 0) {
                 Collections.shuffle(population);
                 population.removeAll(population.subList(populationSize, population.size() - 1));
-//            population = population.subList(0, populationSize);
             } else {
                 List<Genotype> source = new ArrayList<>(population);
                 List<Genotype> newPopulation = new ArrayList<>();
