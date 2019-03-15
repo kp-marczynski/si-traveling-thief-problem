@@ -1,4 +1,4 @@
-package pl.marczynski.pwr.si.ttp.parser;
+package pl.marczynski.pwr.si.ttp.genetic.description;
 
 public enum TtpFileKey {
     PROBLEM_NAME("PROBLEM NAME"),

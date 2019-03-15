@@ -1,6 +1,9 @@
-package pl.marczynski.pwr.si.ttp;
+package pl.marczynski.pwr.si.ttp.genetic.generation;
 
 import javafx.util.Pair;
+import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
+import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.City;
+import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.Genotype;
 
 import java.util.*;
 

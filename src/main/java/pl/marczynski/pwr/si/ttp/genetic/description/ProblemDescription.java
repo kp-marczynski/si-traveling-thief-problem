@@ -1,4 +1,6 @@
-package pl.marczynski.pwr.si.ttp;
+package pl.marczynski.pwr.si.ttp.genetic.description;
+
+import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.City;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,10 @@ public class ProblemDescription {
         this.edgeWeightType = edgeWeightType;
         this.cities = cities;
         this.distancesBetweenCities = distancesBetweenCities;
+    }
+
+    public static ProblemDescription getDescriptionFromFile(String fileName) {
+        return TtpFileParser.parseFile(fileName);
     }
 
     @Override

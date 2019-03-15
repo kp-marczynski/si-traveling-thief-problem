@@ -1,13 +1,13 @@
-package pl.marczynski.pwr.si.ttp;
+package pl.marczynski.pwr.si.ttp.genetic.generation;
 
 import org.junit.Test;
-import pl.marczynski.pwr.si.ttp.parser.TtpFileParser;
+import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class GenerationTest {
 
-    private final ProblemDescription problemDescription = TtpFileParser.parseFile("trivial_0.ttp");
+    private final ProblemDescription problemDescription = ProblemDescription.getDescriptionFromFile("trivial_0.ttp");
 
     @Test
     public void shouldSortGenotypesInGeneration() {

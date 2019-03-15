@@ -1,8 +1,7 @@
-package pl.marczynski.pwr.si.ttp.parser;
+package pl.marczynski.pwr.si.ttp.genetic.description;
 
-import pl.marczynski.pwr.si.ttp.City;
-import pl.marczynski.pwr.si.ttp.Item;
-import pl.marczynski.pwr.si.ttp.ProblemDescription;
+import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.City;
+import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.Item;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 public final class TtpFileParser {
     private static final String DATA_PATH = "./src/main/resources/data/";
 
-    public static ProblemDescription parseFile(String fileName) {
+    static ProblemDescription parseFile(String fileName) {
         Map<String, String> basicData = new HashMap<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(DATA_PATH + fileName))) {
             List<City> cities = null;

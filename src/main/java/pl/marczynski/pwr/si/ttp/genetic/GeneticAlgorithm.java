@@ -1,6 +1,7 @@
-package pl.marczynski.pwr.si.ttp;
+package pl.marczynski.pwr.si.ttp.genetic;
 
-import pl.marczynski.pwr.si.ttp.parser.TtpFileParser;
+import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
+import pl.marczynski.pwr.si.ttp.genetic.generation.Generation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class GeneticAlgorithm {
     }
 
     public static GeneticAlgorithm initialize(String sourceFileName, int numberOfGenerations, int populationsSize, double crossProbability, double mutationProbability, int tournamentSize) {
-        ProblemDescription ttp = TtpFileParser.parseFile(sourceFileName);
+        ProblemDescription ttp = ProblemDescription.getDescriptionFromFile(sourceFileName);
         return new GeneticAlgorithm(numberOfGenerations, populationsSize, crossProbability, mutationProbability, tournamentSize, ttp);
     }
 

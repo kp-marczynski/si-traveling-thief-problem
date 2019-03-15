@@ -1,8 +1,8 @@
-package pl.marczynski.pwr.si.ttp;
+package pl.marczynski.pwr.si.ttp.genetic.generation.genotype;
 
 import javafx.util.Pair;
 import org.junit.Test;
-import pl.marczynski.pwr.si.ttp.parser.TtpFileParser;
+import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class GenotypeTest {
 
-    private final ProblemDescription problemDescription = TtpFileParser.parseFile("trivial_0.ttp");
+    private final ProblemDescription problemDescription = ProblemDescription.getDescriptionFromFile("trivial_0.ttp");
 
     @Test
     public void shouldCreateShuffledGenotype() {

@@ -1,10 +1,9 @@
-package pl.marczynski.pwr.si.ttp.parser;
+package pl.marczynski.pwr.si.ttp.genetic.description;
 
 import org.junit.Test;
-import pl.marczynski.pwr.si.ttp.City;
-import pl.marczynski.pwr.si.ttp.ProblemDescription;
+import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.City;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class TtpFileParserTest {
 

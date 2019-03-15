@@ -1,4 +1,4 @@
-package pl.marczynski.pwr.si.ttp;
+package pl.marczynski.pwr.si.ttp.genetic.generation.genotype;
 
 import javafx.util.Pair;
 

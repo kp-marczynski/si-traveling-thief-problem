@@ -1,4 +1,9 @@
-package pl.marczynski.pwr.si.ttp;
+package pl.marczynski.pwr.si.ttp.genetic.generation;
+
+import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
+import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.City;
+import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.Genotype;
+import pl.marczynski.pwr.si.ttp.genetic.generation.genotype.Item;
 
 import java.util.HashMap;
 import java.util.Map;
