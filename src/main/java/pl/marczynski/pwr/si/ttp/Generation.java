@@ -5,6 +5,7 @@ import javafx.util.Pair;
 import java.util.*;
 
 public class Generation {
+    private static Random random = new Random();
     private int orderNumber;
     private int populationSize;
     private double crossProbability;
@@ -24,9 +25,9 @@ public class Generation {
         this.orderNumber = orderNumber;
     }
 
-    public static Generation createFirstGeneration(int populationSize, double crossProbability, double mutationProbability, int tournmentSize, TravelingThiefProblem ttp) {
+    public static Generation createFirstGeneration(int populationSize, double crossProbability, double mutationProbability, int tournamentSize, ProblemDescription ttp) {
         GenotypeEvaluator evaluator = new GenotypeEvaluator(ttp);
-        Generation firstGeneration = new Generation(1, populationSize, crossProbability, mutationProbability, tournmentSize, evaluator);
+        Generation firstGeneration = new Generation(1, populationSize, crossProbability, mutationProbability, tournamentSize, evaluator);
         firstGeneration.initializePopulation(ttp.getCities());
         firstGeneration.ageGeneration();
         return firstGeneration;
@@ -56,16 +57,16 @@ public class Generation {
         if (tournamentSize < 0) {
             throw new IllegalStateException("Tournament size can not be less than 0");
         }
-        if (tournamentSize == 100) {
-//            sortPopulationDescending();
-//            population = population.subList(0, populationSize);
+        if (tournamentSize == populationSize) {
+            sortPopulationDescending();
+            population = population.subList(0, populationSize);
         } else if (tournamentSize == 0) {
-//            Collections.shuffle(population);
-//            population = population.subList(0, populationSize);
+            Collections.shuffle(population);
+            population = population.subList(0, populationSize);
         } else {
             List<Genotype> source = new ArrayList<>(population);
             List<Genotype> newPopulation = new ArrayList<>();
-            Random random = new Random();
+
             while (newPopulation.size() < populationSize) {
                 int selectedIndex = random.nextInt(source.size());
                 Genotype selected = source.get(selectedIndex);
@@ -79,12 +80,12 @@ public class Generation {
                 newPopulation.add(selected);
                 source.remove(selectedIndex);
             }
+            population = newPopulation;
         }
     }
 
     private void performCrossover() {
         List<Pair<Genotype, Genotype>> pairsForCrossover = createPairsForCrossover();
-        Random random = new Random();
         for (Pair<Genotype, Genotype> pair : pairsForCrossover) {
             if (random.nextDouble() <= crossProbability) {
                 Pair<Genotype, Genotype> crossed = Genotype.createCrossed(pair.getKey(), pair.getValue());
@@ -105,7 +106,6 @@ public class Generation {
     }
 
     private void performMutation() {
-        Random random = new Random();
         List<Genotype> mutated = new ArrayList<>();
         for (Genotype genotype : population) {
             if (random.nextDouble() <= mutationProbability) {
@@ -116,7 +116,7 @@ public class Generation {
     }
 
     protected void sortPopulationDescending() {
-//        population.sort(getGenotypeComparator().reversed());
+        population.sort(getGenotypeComparator().reversed());
     }
 
     private Comparator<Genotype> getGenotypeComparator() {

@@ -11,26 +11,26 @@ public class GeneticAlgorithm {
     private double crossProbability;
     private double mutationProbability;
     private int tournamentSize;
-    private TravelingThiefProblem ttp;
+    private ProblemDescription problemDescription;
     private List<Generation> generations;
 
-    private GeneticAlgorithm(int numberOfGenerations, int populationsSize, double crossProbability, double mutationProbability, int tournamentSize, TravelingThiefProblem ttp) {
+    private GeneticAlgorithm(int numberOfGenerations, int populationsSize, double crossProbability, double mutationProbability, int tournamentSize, ProblemDescription problemDescription) {
         this.numberOfGenerations = numberOfGenerations;
         this.populationsSize = populationsSize;
         this.crossProbability = crossProbability;
         this.mutationProbability = mutationProbability;
         this.tournamentSize = tournamentSize;
-        this.ttp = ttp;
+        this.problemDescription = problemDescription;
         this.generations = new ArrayList<>();
     }
 
     public static GeneticAlgorithm initialize(String sourceFileName, int numberOfGenerations, int populationsSize, double crossProbability, double mutationProbability, int tournamentSize) {
-        TravelingThiefProblem ttp = TtpFileParser.parseFile(sourceFileName);
+        ProblemDescription ttp = TtpFileParser.parseFile(sourceFileName);
         return new GeneticAlgorithm(numberOfGenerations, populationsSize, crossProbability, mutationProbability, tournamentSize, ttp);
     }
 
     public void run() {
-        Generation firstGeneration = Generation.createFirstGeneration(populationsSize, crossProbability, mutationProbability, tournamentSize, ttp);
+        Generation firstGeneration = Generation.createFirstGeneration(populationsSize, crossProbability, mutationProbability, tournamentSize, problemDescription);
         generations.add(firstGeneration);
         for (int i = 0; i < numberOfGenerations - 1; i++) {
             Generation nextGeneration = Generation.createNextGeneration(generations.get(i));

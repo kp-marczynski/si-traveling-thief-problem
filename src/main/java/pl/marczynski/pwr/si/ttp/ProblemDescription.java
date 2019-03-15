@@ -3,7 +3,7 @@ package pl.marczynski.pwr.si.ttp;
 import java.util.List;
 import java.util.Map;
 
-public class TravelingThiefProblem {
+public class ProblemDescription {
     private final String problemName;
     private final String knapsackDataType;
     private final int knapsackCapacity;
@@ -14,7 +14,7 @@ public class TravelingThiefProblem {
     private final List<City> cities;
     private final Map<City, Map<City, Double>> distancesBetweenCities;
 
-    public TravelingThiefProblem(String problemName, String knapsackDataType, int knapsackCapacity, double minSpeed, double maxSpeed, double rentingRatio, String edgeWeightType, List<City> cities, Map<City, Map<City, Double>> distancesBetweenCities) {
+    public ProblemDescription(String problemName, String knapsackDataType, int knapsackCapacity, double minSpeed, double maxSpeed, double rentingRatio, String edgeWeightType, List<City> cities, Map<City, Map<City, Double>> distancesBetweenCities) {
         this.problemName = problemName;
         this.knapsackDataType = knapsackDataType;
         this.knapsackCapacity = knapsackCapacity;
@@ -28,7 +28,7 @@ public class TravelingThiefProblem {
 
     @Override
     public String toString() {
-        return "TravelingThiefProblem{" +
+        return "ProblemDescription{" +
                 "problemName='" + problemName + '\'' +
                 ", knapsackDataType='" + knapsackDataType + '\'' +
                 ", knapsackCapacity=" + knapsackCapacity +

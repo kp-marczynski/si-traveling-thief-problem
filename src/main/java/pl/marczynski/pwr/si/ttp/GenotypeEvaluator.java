@@ -12,11 +12,11 @@ public class GenotypeEvaluator {
     private final double maxSpeed;
     private final Map<String, Double> cachedResults;
 
-    public GenotypeEvaluator(TravelingThiefProblem ttp) {
-        this.distancesBetweenCities = ttp.getDistancesBetweenCities();
-        this.knapsackCapacity = ttp.getKnapsackCapacity();
-        this.minSpeed = ttp.getMinSpeed();
-        this.maxSpeed = ttp.getMaxSpeed();
+    public GenotypeEvaluator(ProblemDescription problemDescription) {
+        this.distancesBetweenCities = problemDescription.getDistancesBetweenCities();
+        this.knapsackCapacity = problemDescription.getKnapsackCapacity();
+        this.minSpeed = problemDescription.getMinSpeed();
+        this.maxSpeed = problemDescription.getMaxSpeed();
         this.cachedResults = new HashMap<>();
     }
 
@@ -33,14 +33,14 @@ public class GenotypeEvaluator {
         double currentWeight = 0;
         double currentValue = 0;
         for (int i = 0; i < genotype.getSize() - 1; i++) {
-            Optional<Item> item = genotype.getCities().get(i).selectItem(knapsackCapacity - currentWeight);
+            Optional<Item> item = genotype.getCity(i).selectItem(knapsackCapacity - currentWeight);
             if (item.isPresent()) {
                 currentValue += item.get().getProfit();
                 currentWeight += item.get().getWeight();
             }
-            roadTime += calculateSpeed(currentWeight) * distancesBetweenCities.get(genotype.getCities().get(i)).get(genotype.getCities().get(i + 1));
+            roadTime += calculateSpeed(currentWeight) * distancesBetweenCities.get(genotype.getCity(i)).get(genotype.getCity(i + 1));
         }
-        roadTime += distancesBetweenCities.get(genotype.getCities().get(genotype.getSize() - 1)).get(genotype.getCities().get(0));
+        roadTime += distancesBetweenCities.get(genotype.getCity(genotype.getSize() - 1)).get(genotype.getCity(0));
         double result = currentValue - roadTime;
         genotype.setValue(result);
         return result;

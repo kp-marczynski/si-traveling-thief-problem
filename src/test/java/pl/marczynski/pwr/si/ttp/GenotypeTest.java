@@ -11,16 +11,16 @@ import static org.junit.Assert.*;
 
 public class GenotypeTest {
 
-    private final TravelingThiefProblem ttp = TtpFileParser.parseFile("trivial_0.ttp");
+    private final ProblemDescription problemDescription = TtpFileParser.parseFile("trivial_0.ttp");
 
     @Test
     public void shouldCreateShuffledGenotype() {
         //when
-        Genotype genotype = Genotype.createShuffledGenotype(ttp.getCities());
+        Genotype genotype = Genotype.createShuffledGenotype(problemDescription.getCities());
 
         //then
-        assertEquals(ttp.getCities().size(), genotype.getSize());
-        for (City city : ttp.getCities()) {
+        assertEquals(problemDescription.getCities().size(), genotype.getSize());
+        for (City city : problemDescription.getCities()) {
             assertTrue(genotype.getCities().contains(city));
         }
     }
@@ -28,7 +28,7 @@ public class GenotypeTest {
     @Test
     public void shouldCreateMutatedGenotype() {
         //given
-        Genotype genotype = Genotype.createShuffledGenotype(ttp.getCities());
+        Genotype genotype = Genotype.createShuffledGenotype(problemDescription.getCities());
 
         //when
         Genotype mutated = Genotype.createMutated(genotype);
@@ -50,8 +50,8 @@ public class GenotypeTest {
     @Test
     public void shouldCreateCrossedGenotype() {
         //given
-        Genotype firstParent = Genotype.createShuffledGenotype(ttp.getCities());
-        Genotype secondParent = Genotype.createShuffledGenotype(ttp.getCities());
+        Genotype firstParent = Genotype.createShuffledGenotype(problemDescription.getCities());
+        Genotype secondParent = Genotype.createShuffledGenotype(problemDescription.getCities());
 
         //when
         Pair<Genotype, Genotype> crossed = Genotype.createCrossed(firstParent, secondParent);

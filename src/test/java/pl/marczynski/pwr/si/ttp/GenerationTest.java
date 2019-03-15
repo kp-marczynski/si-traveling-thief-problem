@@ -7,12 +7,12 @@ import static org.junit.Assert.*;
 
 public class GenerationTest {
 
-    private final TravelingThiefProblem ttp = TtpFileParser.parseFile("trivial_0.ttp");
+    private final ProblemDescription problemDescription = TtpFileParser.parseFile("trivial_0.ttp");
 
     @Test
     public void shouldSortGenotypesInGeneration() {
         //given
-        Generation firstGeneration = Generation.createFirstGeneration(10, 0, 0, 0, ttp);
+        Generation firstGeneration = Generation.createFirstGeneration(10, 0, 0, 0, problemDescription);
         GenotypeEvaluator evaluator = firstGeneration.getEvaluator();
         //when
         firstGeneration.sortPopulationDescending();

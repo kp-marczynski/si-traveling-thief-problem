@@ -2,7 +2,7 @@ package pl.marczynski.pwr.si.ttp.parser;
 
 import pl.marczynski.pwr.si.ttp.City;
 import pl.marczynski.pwr.si.ttp.Item;
-import pl.marczynski.pwr.si.ttp.TravelingThiefProblem;
+import pl.marczynski.pwr.si.ttp.ProblemDescription;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public final class TtpFileParser {
     private static final String DATA_PATH = "./src/main/resources/data/";
 
-    public static TravelingThiefProblem parseFile(String fileName) {
+    public static ProblemDescription parseFile(String fileName) {
         Map<String, String> basicData = new HashMap<>();
         try (BufferedReader fileReader = new BufferedReader(new FileReader(DATA_PATH + fileName))) {
             List<City> cities = null;
@@ -41,7 +41,7 @@ public final class TtpFileParser {
         return null;
     }
 
-    private static TravelingThiefProblem finishParsing(Map<String, String> basicData, List<City> cities, List<Item> items) {
+    private static ProblemDescription finishParsing(Map<String, String> basicData, List<City> cities, List<Item> items) {
         Map<City, Map<City, Double>> distancesBetweenCities = new HashMap<>();
         for (City city : cities) {
             city.setItems(items.stream().filter(item -> item.getCityIndex() == city.getCityIndex()).collect(Collectors.toList()));
@@ -62,7 +62,7 @@ public final class TtpFileParser {
         String edgeWeightType = basicData.get(TtpFileKey.EDGE_WEIGHT_TYPE.getValue());
 
 
-        return new TravelingThiefProblem(problemName, knapsackDataType, knapsackCapacity, minSpeed, maxSpeed, rentingRatio, edgeWeightType, cities, distancesBetweenCities);
+        return new ProblemDescription(problemName, knapsackDataType, knapsackCapacity, minSpeed, maxSpeed, rentingRatio, edgeWeightType, cities, distancesBetweenCities);
     }
 
     private static Double calculateDistance(City city, City innerCity) {

@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 public class Genotype {
     private final List<City> cities;
     private Double value = null;
+    private static Random random = new Random();
 
     private static final HashMap<Integer, Genotype> cachedGenotypes = new HashMap<>();
 
@@ -50,9 +51,8 @@ public class Genotype {
 
     public static Genotype createMutated(Genotype genotype) {
         List<City> result = new ArrayList<>(genotype.cities);
-        Random random = new Random();
-        int first = (int) (random.nextFloat() * result.size() - 1);
-        int second = (int) (random.nextFloat() * result.size() - 1);
+        int first = random.nextInt(result.size());
+        int second = random.nextInt(result.size());
         if (first == second) {
             second = ++second % (result.size() - 1);
         }
@@ -65,30 +65,22 @@ public class Genotype {
             throw new IllegalStateException("Crossed parents don't have equals numbers of genes");
         }
         int genotypeSize = firstParent.getSize();
-        int index = 1 + (int) (new Random().nextFloat() * (genotypeSize - 3));
+        int index = 1 + random.nextInt((genotypeSize - 3));
         List<City> firstChildCities = Stream.concat(
                 Stream.concat(
-                        firstParent.getCities().subList(0, index).stream(),
-                        secondParent.getCities().subList(index + 1, genotypeSize - 1).stream()
+                        firstParent.cities.subList(0, index).stream(),
+                        secondParent.cities.subList(index + 1, genotypeSize - 1).stream()
                 ).distinct(),
-                firstParent.getCities().stream()
+                firstParent.cities.stream()
         ).distinct().collect(Collectors.toList());
 
         List<City> secondChildCities = Stream.concat(
                 Stream.concat(
-                        secondParent.getCities().subList(0, index).stream(),
-                        firstParent.getCities().subList(index + 1, genotypeSize - 1).stream()
+                        secondParent.cities.subList(0, index).stream(),
+                        firstParent.cities.subList(index + 1, genotypeSize - 1).stream()
                 ).distinct(),
-                secondParent.getCities().stream()
+                secondParent.cities.stream()
         ).distinct().collect(Collectors.toList());
-
-//        LinkedHashSet<City> firstChildCitiesSet = new LinkedHashSet<>(firstParent.getCities().subList(0, index));
-//        firstChildCitiesSet.addAll(secondParent.getCities().subList(index + 1, genotypeSize - 1));
-//        firstChildCitiesSet.addAll(firstParent.getCities());
-//
-//        LinkedHashSet<City> secondChildCitiesSet = new LinkedHashSet<>(secondParent.getCities().subList(0, index));
-//        secondChildCitiesSet.addAll(firstParent.getCities().subList(index + 1, genotypeSize - 1));
-//        secondChildCitiesSet.addAll(secondParent.getCities());
 
         Genotype firstChild = new Genotype(firstChildCities);
         Genotype secondChild = new Genotype(secondChildCities);
@@ -96,8 +88,16 @@ public class Genotype {
         return new Pair<>(firstChild, secondChild);
     }
 
-    public List<City> getCities() {
+    protected List<City> getCities() {
         return cities;
+    }
+
+    public City getCity(int index) {
+        if (index < 0 || index >= cities.size()) {
+            throw new IndexOutOfBoundsException("Requested index is out of cities list bounds");
+        } else {
+            return cities.get(index);
+        }
     }
 
     public int getSize() {
