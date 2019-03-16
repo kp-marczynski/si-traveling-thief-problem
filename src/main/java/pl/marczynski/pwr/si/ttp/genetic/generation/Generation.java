@@ -14,7 +14,7 @@ public class Generation {
     private final GenotypeEvaluator evaluator;
     private final List<Genotype> eden;
     private final int orderNumber;
-
+    private GenerationResult generationResult = null;
 
     protected final List<Genotype> population;
 
@@ -63,6 +63,7 @@ public class Generation {
         performSelection();
         performCrossover();
         performMutation();
+        generationResult = new GenerationResult(orderNumber, getBestResult(), getAverageResult(), getWorstResult());
     }
 
     private void performSelection() {
@@ -138,7 +139,7 @@ public class Generation {
         return (a, b) -> (int) (evaluator.evaluate(a) - evaluator.evaluate(b));
     }
 
-    public double getBestResult() {
+    private double getBestResult() {
         return population.stream().mapToDouble(evaluator::evaluate).max().getAsDouble();
     }
 
@@ -154,9 +155,9 @@ public class Generation {
     public String toString() {
         return "Generation{" +
                 "orderNumber= " + orderNumber +
-                " best= " + getBestResult() +
-                " avg= " + getAverageResult() +
-                " worst= " + getWorstResult() +
+                " best= " + generationResult.getBest() +
+                " avg= " + generationResult.getAverage() +
+                " worst= " + generationResult.getWorst() +
                 '}';
     }
 
@@ -164,15 +165,7 @@ public class Generation {
         return evaluator;
     }
 
-    public String getInCsvFormat() {
-        return new StringBuilder()
-                .append(orderNumber).append(",")
-                .append(getBestResult()).append(",")
-                .append(getAverageResult()).append(",")
-                .append(getWorstResult()).toString();
-    }
-
-    public static String getCsvHeader() {
-        return "Generation number,Best result,Average result,Worst result";
+    public GenerationResult getGenerationResult() {
+        return generationResult;
     }
 }

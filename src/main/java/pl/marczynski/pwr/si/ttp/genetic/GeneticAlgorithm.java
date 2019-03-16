@@ -1,16 +1,15 @@
 package pl.marczynski.pwr.si.ttp.genetic;
 
+import pl.marczynski.pwr.si.ttp.CsvHelper;
 import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 import pl.marczynski.pwr.si.ttp.genetic.generation.Generation;
+import pl.marczynski.pwr.si.ttp.genetic.generation.GenerationResult;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GeneticAlgorithm {
-    private static final String RESULTS_PATH = "./src/main/resources/results/";
 
     private final Hiperparameters hiperparameters;
     private final ProblemDescription problemDescription;
@@ -26,7 +25,7 @@ public class GeneticAlgorithm {
         return new GeneticAlgorithm(problemDescription, hiperparameters);
     }
 
-    public double run() {
+    public List<GenerationResult> run() {
         Generation firstGeneration = Generation.createFirstGeneration(problemDescription, hiperparameters);
         generations.add(firstGeneration);
         for (int i = 0; i < hiperparameters.getNumberOfGenerations() - 1; i++) {
@@ -35,8 +34,21 @@ public class GeneticAlgorithm {
             System.out.println(generations.get(i));
         }
         System.out.println(generations.get(generations.size() - 1));
-        saveToFile();
-        return generations.get(generations.size() - 1).getBestResult();
+//        saveToFile();
+        return generations.stream().map(Generation::getGenerationResult).collect(Collectors.toList());
+    }
+
+    private void saveToFile() {
+        List<List<String>> results = new ArrayList<>();
+        for (Generation generation : generations) {
+            List<String> result = new ArrayList<>();
+            result.add(String.valueOf(generation.getGenerationResult().getOrderNumber()));
+            result.add(String.valueOf(generation.getGenerationResult().getBest()));
+            result.add(String.valueOf(generation.getGenerationResult().getAverage()));
+            result.add(String.valueOf(generation.getGenerationResult().getWorst()));
+            results.add(result);
+        }
+        CsvHelper.saveToFile(problemDescription.getFileName(), getBaseName(), GenerationResult.getCsvHeader(), results);
     }
 
     private String getBaseName() {
@@ -50,39 +62,5 @@ public class GeneticAlgorithm {
                 .toString();
     }
 
-    private String getResultPath() {
-        return RESULTS_PATH + problemDescription.getFileName() + "/" + getBaseName();
-    }
 
-    private File getDirectory() {
-        String resultPath = getResultPath();
-        File directory = new File(resultPath);
-        if (!directory.exists() || !directory.isDirectory()) {
-            directory.mkdirs();
-        }
-        return directory;
-    }
-
-    public void saveToFile() {
-        String baseName = getBaseName();
-        File directory = getDirectory();
-
-        int numberOfFilesInDirectory = directory.listFiles().length;
-
-        String fileName = new StringBuilder()
-                .append(getResultPath()).append("/")
-                .append(baseName)
-                .append("-v_").append(numberOfFilesInDirectory).append(".csv").toString();
-
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName))) {
-            bufferedWriter.write(Generation.getCsvHeader());
-            for (Generation generation : generations) {
-                bufferedWriter.newLine();
-                bufferedWriter.write(generation.getInCsvFormat());
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
 }
