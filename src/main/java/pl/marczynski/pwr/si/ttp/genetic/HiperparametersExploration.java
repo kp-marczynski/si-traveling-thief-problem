@@ -1,13 +1,12 @@
 package pl.marczynski.pwr.si.ttp.genetic;
 
 import javafx.util.Pair;
-import pl.marczynski.pwr.si.ttp.CsvHelper;
+import pl.marczynski.pwr.si.ttp.ResultSaverService;
 import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 import pl.marczynski.pwr.si.ttp.genetic.generation.GenerationResult;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -95,31 +94,31 @@ public class HiperparametersExploration {
 
     private void testEdgeMutationForBestCross(double bestCrossProbability) {
         double edgeMutation = 0.5;
-        Hiperparameters hiperparameters = new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, DEFAULT_POPULATION_SIZE, bestCrossProbability, edgeMutation, DEFAULT_TOURNAMENT_SIZE, 1);
+        Hiperparameters hiperparameters = new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, DEFAULT_POPULATION_SIZE, bestCrossProbability, edgeMutation, DEFAULT_TOURNAMENT_SIZE, DEFAULT_EDEN_SIZE);
         performStandardTest(hiperparameters, "edge-mutation_" + edgeMutation + "-for-cross_" + bestCrossProbability);
     }
 
     private void testEdgeCrossForBestMutation(double bestMutationProbability) {
         double edgeCross = 0.25;
-        Hiperparameters hiperparameters = new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, DEFAULT_POPULATION_SIZE, edgeCross, bestMutationProbability, DEFAULT_TOURNAMENT_SIZE, 1);
+        Hiperparameters hiperparameters = new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, DEFAULT_POPULATION_SIZE, edgeCross, bestMutationProbability, DEFAULT_TOURNAMENT_SIZE, DEFAULT_EDEN_SIZE);
         performStandardTest(hiperparameters, "edge-cross_" + edgeCross + "-for-mutation_" + bestMutationProbability);
     }
 
     private void testMinimalTournament() {
         int minimalTournament = 1;
-        Hiperparameters hiperparameters = new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, DEFAULT_POPULATION_SIZE, DEFAULT_CROSS_PROBABILITY, DEFAULT_MUTATION_PROBABILITY, minimalTournament, 1);
+        Hiperparameters hiperparameters = new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, DEFAULT_POPULATION_SIZE, DEFAULT_CROSS_PROBABILITY, DEFAULT_MUTATION_PROBABILITY, minimalTournament, DEFAULT_EDEN_SIZE);
         performStandardTest(hiperparameters, "edge-minimal-tournament_" + minimalTournament);
     }
 
     private void testMaximalTournament() {
         int maximalTournament = DEFAULT_POPULATION_SIZE;
-        Hiperparameters hiperparameters = new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, DEFAULT_POPULATION_SIZE, DEFAULT_CROSS_PROBABILITY, DEFAULT_MUTATION_PROBABILITY, maximalTournament, 1);
+        Hiperparameters hiperparameters = new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, DEFAULT_POPULATION_SIZE, DEFAULT_CROSS_PROBABILITY, DEFAULT_MUTATION_PROBABILITY, maximalTournament, DEFAULT_EDEN_SIZE);
         performStandardTest(hiperparameters, "edge-maximal-tournament_" + maximalTournament);
     }
 
     private void testBigGeneration() {
         int bigGeneration = 10000;
-        Hiperparameters hiperparameters = new Hiperparameters(bigGeneration, DEFAULT_POPULATION_SIZE, DEFAULT_CROSS_PROBABILITY, DEFAULT_MUTATION_PROBABILITY, DEFAULT_TOURNAMENT_SIZE, 1);
+        Hiperparameters hiperparameters = new Hiperparameters(bigGeneration, DEFAULT_POPULATION_SIZE, DEFAULT_CROSS_PROBABILITY, DEFAULT_MUTATION_PROBABILITY, DEFAULT_TOURNAMENT_SIZE, DEFAULT_EDEN_SIZE);
         performStandardTest(hiperparameters, "edge-big-generation_" + bigGeneration);
     }
 
@@ -127,7 +126,7 @@ public class HiperparametersExploration {
         GeneticAlgorithm ga = GeneticAlgorithm.initialize(problemDescription, hiperparameters);
         List<GenerationResult> results = ga.run();
         List<List<String>> mappedResults = results.stream().map(GenerationResult::getResultAsStringList).collect(Collectors.toList());
-        CsvHelper.saveToFile(problemDescription.getFileName(), testName, GenerationResult.getCsvHeader(), mappedResults);
+        ResultSaverService.saveToFile(problemDescription.getFileName(), testName, GenerationResult.getCsvHeader(), mappedResults);
     }
 
     private Hiperparameters performTest(List<Hiperparameters> hiperparametersList, String testName, List<String> header) {
@@ -173,7 +172,7 @@ public class HiperparametersExploration {
 //            for (List<GenerationResult> gaResult : generationsResults) {
 //                csvResult.add(gaResult.stream().map(separateResult.getKey()).map(String::valueOf).collect(Collectors.toList()));
 //            }
-            CsvHelper.saveToFile(problemDescription.getFileName(), testName + "_" + separateResult.getValue(), newHeader, csvResult);
+            ResultSaverService.saveToFile(problemDescription.getFileName(), testName + "_" + separateResult.getValue(), newHeader, csvResult);
         }
     }
 

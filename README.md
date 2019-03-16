@@ -3,3 +3,8 @@ Traveling thief problem is composition of traveling salesman problem and knapsac
 
 * For traveling salesman problem genetic algorithm is used.
 * For knapsack problem greedy algorithm is used
+
+## Required:
+Install npm graph maker:
+* npm install -g c3-chart-maker
+* http://www.the-data-wrangler.com/node-js-chart-rendering-with-c3-and-nightmare/

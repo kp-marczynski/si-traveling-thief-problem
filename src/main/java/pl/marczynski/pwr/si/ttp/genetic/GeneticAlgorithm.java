@@ -1,6 +1,6 @@
 package pl.marczynski.pwr.si.ttp.genetic;
 
-import pl.marczynski.pwr.si.ttp.CsvHelper;
+import pl.marczynski.pwr.si.ttp.ResultSaverService;
 import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 import pl.marczynski.pwr.si.ttp.genetic.generation.Generation;
 import pl.marczynski.pwr.si.ttp.genetic.generation.GenerationResult;
@@ -48,7 +48,7 @@ public class GeneticAlgorithm {
             result.add(String.valueOf(generation.getGenerationResult().getWorst()));
             results.add(result);
         }
-        CsvHelper.saveToFile(problemDescription.getFileName(), getBaseName(), GenerationResult.getCsvHeader(), results);
+        ResultSaverService.saveToFile(problemDescription.getFileName(), getBaseName(), GenerationResult.getCsvHeader(), results);
     }
 
     private String getBaseName() {

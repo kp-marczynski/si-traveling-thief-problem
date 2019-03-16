@@ -34,7 +34,7 @@ public class GenerationTest {
         double expectedMax = secondGeneration.population.stream().mapToDouble(evaluator::evaluate).max().getAsDouble();
 
         //when
-        double bestResult = secondGeneration.getBestResult();
+        double bestResult = secondGeneration.getGenerationResult().getBest();
 
         //then
         assertEquals(expectedMax, bestResult, 0.001);
