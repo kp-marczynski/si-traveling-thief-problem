@@ -62,7 +62,7 @@ public class HiperparametersExploration {
     }
 
     private int testPopulationSize() {
-        int[] populationSize = {100, 1000, 10000};
+        int[] populationSize = {100, 500, 1000};
         List<Hiperparameters> hiperparametersList = new ArrayList<>();
         for (int population : populationSize) {
             hiperparametersList.add(new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, population, DEFAULT_CROSS_PROBABILITY, DEFAULT_MUTATION_PROBABILITY, DEFAULT_TOURNAMENT_SIZE, DEFAULT_EDEN_SIZE));
@@ -72,7 +72,7 @@ public class HiperparametersExploration {
 
     private int testNumberOfGenerations() {
         List<Hiperparameters> hiperparametersList = new ArrayList<>();
-        int[] numberOfGenerations = {100, 1000, 10000};
+        int[] numberOfGenerations = {100, 500, 1000};
         for (int generation : numberOfGenerations) {
             hiperparametersList.add(new Hiperparameters(generation, DEFAULT_POPULATION_SIZE, DEFAULT_CROSS_PROBABILITY, DEFAULT_MUTATION_PROBABILITY, DEFAULT_TOURNAMENT_SIZE, DEFAULT_EDEN_SIZE));
         }

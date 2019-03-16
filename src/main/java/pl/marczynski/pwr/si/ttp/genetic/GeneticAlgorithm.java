@@ -39,8 +39,8 @@ public class GeneticAlgorithm {
         return generations.get(generations.size() - 1).getBestResult();
     }
 
-    public void saveToFile() {
-        String baseName = new StringBuilder()
+    private String getBaseName() {
+        return new StringBuilder()
                 .append(problemDescription.getFileName())
                 .append("-genSize_").append(hiperparameters.getNumberOfGenerations())
                 .append("-popSize_").append(hiperparameters.getPopulationsSize())
@@ -48,16 +48,29 @@ public class GeneticAlgorithm {
                 .append("-pm_").append(hiperparameters.getMutationProbability())
                 .append("-tour_").append(hiperparameters.getTournamentSize())
                 .toString();
+    }
 
-        String resultPath = RESULTS_PATH + problemDescription.getFileName() + "/" + baseName;
+    private String getResultPath() {
+        return RESULTS_PATH + problemDescription.getFileName() + "/" + getBaseName();
+    }
+
+    private File getDirectory() {
+        String resultPath = getResultPath();
         File directory = new File(resultPath);
         if (!directory.exists() || !directory.isDirectory()) {
             directory.mkdirs();
         }
+        return directory;
+    }
+
+    public void saveToFile() {
+        String baseName = getBaseName();
+        File directory = getDirectory();
+
         int numberOfFilesInDirectory = directory.listFiles().length;
 
         String fileName = new StringBuilder()
-                .append(resultPath).append("/")
+                .append(getResultPath()).append("/")
                 .append(baseName)
                 .append("-v_").append(numberOfFilesInDirectory).append(".csv").toString();
 

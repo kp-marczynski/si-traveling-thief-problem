@@ -68,23 +68,26 @@ public class Generation {
     private void performSelection() {
         if (hiperparameters.getTournamentSize() < 0) {
             throw new IllegalStateException("Tournament size can not be less than 0");
-        } /*else if (hiperparameters.getTournamentSize() == 0) {
-            Collections.shuffle(population);
-            population.removeAll(population.subList(hiperparameters.getPopulationsSize(), population.size() - 1));
-        } */else {
+        } else {
             List<Genotype> newPopulation = new ArrayList<>(eden);
-
+            List<Genotype> source = new ArrayList<>(population);
+            if (hiperparameters.getTournamentSize() == 0) {
+                source.removeAll(eden);
+            }
             while (newPopulation.size() < hiperparameters.getPopulationsSize()) {
-                int index = random.nextInt(population.size());
-                Genotype selected = population.get(index);
+                int index = random.nextInt(source.size());
+                Genotype selected = source.get(index);
                 for (int i = 0; i < hiperparameters.getTournamentSize() - 1; ++i) {
-                    index = random.nextInt(population.size());
-                    Genotype tournamentGenotype = population.get(index);
+                    index = random.nextInt(source.size());
+                    Genotype tournamentGenotype = source.get(index);
                     if (evaluator.evaluate(tournamentGenotype) > evaluator.evaluate(selected)) {
                         selected = tournamentGenotype;
                     }
                 }
                 newPopulation.add(selected);
+                if (hiperparameters.getTournamentSize() == 0) {
+                    source.remove(selected);
+                }
             }
             population.clear();
             population.addAll(newPopulation);
