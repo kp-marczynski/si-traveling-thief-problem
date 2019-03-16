@@ -47,9 +47,9 @@ public class ResultSaverService {
             "}";
 
     public static void saveToFile(String problemName, String baseName, List<String> header, List<List<String>> linesToSave) {
-        getDirectory(problemName, baseName);
+        getDirectory(problemName);
 
-        String fileName = getResultPath(problemName, baseName) + "/" + baseName;
+        String fileName = getResultPath(problemName) + "/" + baseName;
 
         createJsonDefinition(fileName, header);
         createCsvFile(fileName, header, linesToSave);
@@ -119,12 +119,12 @@ public class ResultSaverService {
         return builder.toString();
     }
 
-    private static String getResultPath(String problemName, String baseName) {
-        return RESULTS_PATH + problemName;// + "/" + baseName;
+    private static String getResultPath(String problemName) {
+        return RESULTS_PATH + problemName;
     }
 
-    private static File getDirectory(String problemName, String baseName) {
-        String resultPath = getResultPath(problemName, baseName);
+    public static File getDirectory(String problemName) {
+        String resultPath = getResultPath(problemName);
         File directory = new File(resultPath);
         if (!directory.exists() || !directory.isDirectory()) {
             directory.mkdirs();
