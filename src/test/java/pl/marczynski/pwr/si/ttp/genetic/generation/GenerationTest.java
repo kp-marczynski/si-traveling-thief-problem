@@ -1,6 +1,7 @@
 package pl.marczynski.pwr.si.ttp.genetic.generation;
 
 import org.junit.Test;
+import pl.marczynski.pwr.si.ttp.genetic.Hiperparameters;
 import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 
 import static org.junit.Assert.assertEquals;
@@ -13,7 +14,7 @@ public class GenerationTest {
     @Test
     public void shouldSortGenotypesInGeneration() {
         //given
-        Generation firstGeneration = Generation.createFirstGeneration(10, 0, 0, 0, problemDescription);
+        Generation firstGeneration = Generation.createFirstGeneration(problemDescription, new Hiperparameters(0, 0, 0, 0, 0, 0));
         GenotypeEvaluator evaluator = firstGeneration.getEvaluator();
         //when
         firstGeneration.sortPopulationDescending();
@@ -27,7 +28,7 @@ public class GenerationTest {
     @Test
     public void bestGenotypeShouldBeEqualToBestInStream() {
         //given
-        Generation firstGeneration = Generation.createFirstGeneration(100, 0.7, 0.01, 5, problemDescription);
+        Generation firstGeneration = Generation.createFirstGeneration(problemDescription, new Hiperparameters(100, 100, 0.7, 0.01, 5, 0));
         Generation secondGeneration = Generation.createNextGeneration(firstGeneration);
         GenotypeEvaluator evaluator = secondGeneration.getEvaluator();
         double expectedMax = secondGeneration.population.stream().mapToDouble(evaluator::evaluate).max().getAsDouble();
@@ -37,6 +38,7 @@ public class GenerationTest {
 
         //then
         assertEquals(expectedMax, bestResult, 0.001);
-
     }
+
+
 }

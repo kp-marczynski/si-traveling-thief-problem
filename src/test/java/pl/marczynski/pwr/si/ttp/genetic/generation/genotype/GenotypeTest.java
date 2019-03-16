@@ -4,6 +4,7 @@ import javafx.util.Pair;
 import org.junit.Test;
 import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -72,5 +73,23 @@ public class GenotypeTest {
 
         assertEquals(firstParent.getCities().size(), crossed.getKey().getCities().size());
         assertEquals(firstParent.getCities().size(), crossed.getValue().getCities().size());
+    }
+
+    @Test
+    public void shouldRemoveOneGenotypeFromPopulation() {
+        //given
+        Genotype genotype = Genotype.createShuffledGenotype(problemDescription.getCities());
+        List<Genotype> population = new ArrayList<>();
+        int populationSize = 20;
+        for (int i = 0; i < populationSize; i++) {
+            population.add(genotype);
+        }
+        assertEquals(populationSize, population.size());
+
+        //when
+        population.remove(genotype);
+
+        //then
+        assertEquals(populationSize - 1, population.size());
     }
 }

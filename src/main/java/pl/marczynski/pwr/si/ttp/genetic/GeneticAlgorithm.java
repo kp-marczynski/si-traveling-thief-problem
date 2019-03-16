@@ -12,51 +12,44 @@ import java.util.List;
 public class GeneticAlgorithm {
     private static final String RESULTS_PATH = "./src/main/resources/results/";
 
-    private final int numberOfGenerations;
-    private final int populationsSize;
-    private final double crossProbability;
-    private final double mutationProbability;
-    private final int tournamentSize;
+    private final Hiperparameters hiperparameters;
     private final ProblemDescription problemDescription;
     private final List<Generation> generations;
 
-    private GeneticAlgorithm(int numberOfGenerations, int populationsSize, double crossProbability, double mutationProbability, int tournamentSize, ProblemDescription problemDescription) {
-        this.numberOfGenerations = numberOfGenerations;
-        this.populationsSize = populationsSize;
-        this.crossProbability = crossProbability;
-        this.mutationProbability = mutationProbability;
-        this.tournamentSize = tournamentSize;
+    private GeneticAlgorithm(ProblemDescription problemDescription, Hiperparameters hiperparameters) {
+        this.hiperparameters = hiperparameters;
         this.problemDescription = problemDescription;
         this.generations = new ArrayList<>();
     }
 
-    public static GeneticAlgorithm initialize(String sourceFileName, int numberOfGenerations, int populationsSize, double crossProbability, double mutationProbability, int tournamentSize) {
-        ProblemDescription ttp = ProblemDescription.getDescriptionFromFile(sourceFileName);
-        return new GeneticAlgorithm(numberOfGenerations, populationsSize, crossProbability, mutationProbability, tournamentSize, ttp);
+    public static GeneticAlgorithm initialize(ProblemDescription problemDescription, Hiperparameters hiperparameters) {
+        return new GeneticAlgorithm(problemDescription, hiperparameters);
     }
 
-    public void run() {
-        Generation firstGeneration = Generation.createFirstGeneration(populationsSize, crossProbability, mutationProbability, tournamentSize, problemDescription);
+    public double run() {
+        Generation firstGeneration = Generation.createFirstGeneration(problemDescription, hiperparameters);
         generations.add(firstGeneration);
-        for (int i = 0; i < numberOfGenerations - 1; i++) {
+        for (int i = 0; i < hiperparameters.getNumberOfGenerations() - 1; i++) {
             Generation nextGeneration = Generation.createNextGeneration(generations.get(i));
             generations.add(nextGeneration);
             System.out.println(generations.get(i));
         }
         System.out.println(generations.get(generations.size() - 1));
+        saveToFile();
+        return generations.get(generations.size() - 1).getBestResult();
     }
 
     public void saveToFile() {
         String baseName = new StringBuilder()
                 .append(problemDescription.getFileName())
-                .append("-genSize_").append(numberOfGenerations)
-                .append("-popSize_").append(populationsSize)
-                .append("-px_").append(crossProbability)
-                .append("-pm_").append(mutationProbability)
-                .append("-tour_").append(tournamentSize)
+                .append("-genSize_").append(hiperparameters.getNumberOfGenerations())
+                .append("-popSize_").append(hiperparameters.getPopulationsSize())
+                .append("-px_").append(hiperparameters.getCrossProbability())
+                .append("-pm_").append(hiperparameters.getMutationProbability())
+                .append("-tour_").append(hiperparameters.getTournamentSize())
                 .toString();
 
-        String resultPath = RESULTS_PATH + baseName;
+        String resultPath = RESULTS_PATH + problemDescription.getFileName() + "/" + baseName;
         File directory = new File(resultPath);
         if (!directory.exists() || !directory.isDirectory()) {
             directory.mkdirs();

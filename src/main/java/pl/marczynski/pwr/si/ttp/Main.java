@@ -1,15 +1,19 @@
 package pl.marczynski.pwr.si.ttp;
 
-import pl.marczynski.pwr.si.ttp.genetic.GeneticAlgorithm;
+import pl.marczynski.pwr.si.ttp.genetic.HiperparametersExploration;
 import pl.marczynski.pwr.si.ttp.genetic.description.DescriptionFileRepository;
-import pl.marczynski.pwr.si.ttp.genetic.description.DescriptionFileType;
+import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
+
+import java.util.Set;
 
 public class Main {
 
+
     public static void main(String[] args) {
-        String randomFile = DescriptionFileRepository.getRandomFileForType(DescriptionFileType.EASY);
-        GeneticAlgorithm ga = GeneticAlgorithm.initialize(randomFile, 100, 100, 0.5, 0.01, 10);
-        ga.run();
-        ga.saveToFile();
+        Set<ProblemDescription> descriptions = DescriptionFileRepository.getAllHardDescriptions();
+        for (ProblemDescription description : descriptions) {
+            new HiperparametersExploration(description).explore();
+        }
     }
+
 }
