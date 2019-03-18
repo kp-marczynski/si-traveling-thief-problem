@@ -85,6 +85,9 @@ public class ResultSaverService {
         }
     }
 
+    /**
+    * Required npm package: https://www.npmjs.com/package/c3-chart-maker
+     */
     private static void generateImage(String fileName) {
         try {
             String command = "c3-chart-maker " + fileName + ".csv --chart=" + fileName + ".json --out=" + fileName + ".png";
