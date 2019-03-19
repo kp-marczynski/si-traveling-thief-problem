@@ -1,9 +1,6 @@
 package pl.marczynski.pwr.si.ttp.genetic.description;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class DescriptionFileRepository {
     private static HashMap<DescriptionFileType, Integer> numberOfFiles = new HashMap<DescriptionFileType, Integer>() {{
@@ -18,6 +15,9 @@ public class DescriptionFileRepository {
         return ProblemDescription.getDescriptionFromFile(type.getNamePrefix() + new Random().nextInt(numberOfFiles));
     }
 
+    public static Set<ProblemDescription> getRandomDescriptionsForType(DescriptionFileType type) {
+        return Collections.singleton(getRandomDescriptionForType(type));
+    }
     public static Set<ProblemDescription> getAllHardDescriptions() {
         Set<ProblemDescription> result = new HashSet<>();
         DescriptionFileType hard = DescriptionFileType.HARD;

@@ -46,6 +46,8 @@ public class ResultSaverService {
             "    }\n" +
             "}";
 
+    private static boolean checkPerformed = false;
+
     public static void saveToFile(String problemName, String baseName, List<String> header, List<List<String>> linesToSave) {
         getDirectory(problemName);
 
@@ -85,20 +87,19 @@ public class ResultSaverService {
         }
     }
 
-    /**
-    * Required npm package: https://www.npmjs.com/package/c3-chart-maker
-     */
     private static void generateImage(String fileName) {
         try {
+            if (!checkPerformed) {
+                performCheck();
+                checkPerformed = true;
+            }
+
             String command = "c3-chart-maker " + fileName + ".csv --chart=" + fileName + ".json --out=" + fileName + ".png";
 
-            if (isWindows()) {
-                command = "cmd /C " + command;
-            }
-            Process p = Runtime.getRuntime().exec(command);
+            Process p = Runtime.getRuntime().exec(getSystemCommand(command));
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(p.getInputStream()));
-            String line = null;
+            String line;
             while ((line = in.readLine()) != null) {
                 System.out.println(line);
             }
@@ -107,8 +108,58 @@ public class ResultSaverService {
         }
     }
 
+    private static void performCheck() {
+        if (!checkIfNpmIsInstalled()) {
+            throw new IllegalStateException("Node.js and npm are must be installed!");
+        }
+        if (!checkIfChartMakerIsInstalled()) {
+            installChartMaker();
+        }
+    }
+
+    private static boolean checkIfChartMakerIsInstalled() {
+        return checkIfCommandExist("c3-chart-maker");
+    }
+
+    private static boolean checkIfNpmIsInstalled() {
+        return checkIfCommandExist("npm");
+    }
+
+    private static boolean checkIfCommandExist(String command) {
+        try {
+            Process p = Runtime.getRuntime().exec(getSystemCommand(command + " -v"));
+
+            p.waitFor();
+            return p.exitValue() == 0;
+        } catch (IOException | InterruptedException e) {
+            return false;
+        }
+    }
+
+    private static void installChartMaker() {
+        String command = "npm install -g c3-chart-maker";
+
+        try {
+            Process p = Runtime.getRuntime().exec(getSystemCommand(command));
+
+            p.waitFor();
+            if (p.exitValue() != 0) {
+                throw new IllegalStateException("Could not install chart maker");
+            }
+        } catch (IOException | InterruptedException e) {
+            throw new IllegalStateException("Could not install chart maker");
+        }
+    }
+
     private static boolean isWindows() {
         return System.getProperty("os.name").toLowerCase().contains("windows");
+    }
+
+    private static String getSystemCommand(String baseCommand) {
+        if (isWindows()) {
+            return "cmd /C " + baseCommand;
+        }
+        return baseCommand;
     }
 
     private static String getCsvLine(List<String> line) {
