@@ -5,46 +5,9 @@ import java.util.List;
 
 public class ResultSaverService {
     private static final String RESULTS_PATH = "./out/results/";
-    private static final String JSON_FIRST_PART = "{\n" +
-            "    \"size\": {\n" +
-            "        \"height\": 600,\n" +
-            "        \"width\": 1200\n" +
-            "    },\n" +
-            "    \"series\": {\n" +
-            "        \"x\": \"Generation number\",";
 
-    private static final String JSON_SECOND_PART = "},\n" +
-            "    \"data\": {\n" +
-            "        \"x\": \"x\",\n" +
-            "        \"type\": \"line\"\n" +
-            "    },\n" +
-            "    \"axis\": {\n" +
-            "        \"x\": {\n" +
-            "            \"type\": \"indexed\",\n" +
-            "            \"label\": {\n" +
-            "                \"text\": \"Generation number\",\n" +
-            "                \"position\": \"middle\"\n" +
-            "            }\n" +
-            "        },\n" +
-            "        \"y\": {\n" +
-            "            \"label\": {\n" +
-            "                \"text\": \"Value\",\n" +
-            "                \"position\": \"outer-middle\"\n" +
-            "            }\n" +
-            "        }\n" +
-            "    },\n" +
-            "    \"grid\": {\n" +
-            "        \"x\": {\n" +
-            "            \"show\": true\n" +
-            "        },\n" +
-            "        \"y\": {\n" +
-            "            \"show\": true\n" +
-            "        }\n" +
-            "    },\n" +
-            "    \"point\": {\n" +
-            "        \"show\": false\n" +
-            "    }\n" +
-            "}";
+    private static final String JSON_FIRST_PART = "{\"size\":{\"height\":600,\"width\":1200},\"series\":{\"x\":\"Generation number\",";
+    private static final String JSON_SECOND_PART = "},\"data\":{\"x\":\"x\",\"type\":\"line\"},\"axis\":{\"x\":{\"type\":\"indexed\"},\"y\":{\"label\":{\"text\":\"Value\",\"position\":\"outer-middle\"}}},\"grid\":{\"x\":{\"show\":true},\"y\":{\"show\":true}},\"point\":{\"show\":false}}";
 
     private static boolean checkPerformed = false;
 
