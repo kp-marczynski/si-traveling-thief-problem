@@ -110,7 +110,7 @@ public class ResultSaverService {
 
     private static void performCheck() {
         if (!checkIfNpmIsInstalled()) {
-            throw new IllegalStateException("Node.js and npm are must be installed!");
+            throw new IllegalStateException("Node.js and npm must be installed!");
         }
         if (!checkIfChartMakerIsInstalled()) {
             installChartMaker();
