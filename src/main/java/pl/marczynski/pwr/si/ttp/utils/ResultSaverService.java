@@ -1,4 +1,4 @@
-package pl.marczynski.pwr.si.ttp;
+package pl.marczynski.pwr.si.ttp.utils;
 
 import java.io.*;
 import java.util.List;

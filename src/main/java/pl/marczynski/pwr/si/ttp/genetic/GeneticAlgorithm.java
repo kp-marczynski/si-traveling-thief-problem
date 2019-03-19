@@ -1,6 +1,6 @@
 package pl.marczynski.pwr.si.ttp.genetic;
 
-import pl.marczynski.pwr.si.ttp.ResultSaverService;
+import pl.marczynski.pwr.si.ttp.utils.ResultSaverService;
 import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 import pl.marczynski.pwr.si.ttp.genetic.generation.Generation;
 import pl.marczynski.pwr.si.ttp.genetic.generation.GenerationResult;
