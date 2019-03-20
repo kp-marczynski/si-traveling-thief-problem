@@ -15,9 +15,6 @@ public class DescriptionFileRepository {
         return ProblemDescription.getDescriptionFromFile(type.getNamePrefix() + new Random().nextInt(numberOfFiles));
     }
 
-    public static Set<ProblemDescription> getRandomDescriptionsForType(DescriptionFileType type) {
-        return Collections.singleton(getRandomDescriptionForType(type));
-    }
     public static Set<ProblemDescription> getAllHardDescriptions() {
         Set<ProblemDescription> result = new HashSet<>();
         DescriptionFileType hard = DescriptionFileType.HARD;
