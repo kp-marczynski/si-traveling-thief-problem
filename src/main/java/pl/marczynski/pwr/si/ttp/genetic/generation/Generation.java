@@ -71,28 +71,47 @@ public class Generation {
             throw new IllegalStateException("Tournament size can not be less than 0");
         } else {
             List<Genotype> newPopulation = new ArrayList<>(eden);
-            List<Genotype> source = new ArrayList<>(population);
-            if (hiperparameters.getTournamentSize() == 0) {
-                source.removeAll(eden);
-            }
             while (newPopulation.size() < hiperparameters.getPopulationsSize()) {
-                int index = random.nextInt(source.size());
-                Genotype selected = source.get(index);
-                for (int i = 0; i < hiperparameters.getTournamentSize() - 1; ++i) {
-                    index = random.nextInt(source.size());
-                    Genotype tournamentGenotype = source.get(index);
-                    if (evaluator.evaluate(tournamentGenotype) > evaluator.evaluate(selected)) {
-                        selected = tournamentGenotype;
-                    }
+                Genotype selected;
+                if (hiperparameters.getTournamentSize() == 0) {
+                    selected = performRouletteSelection();
+                } else {
+                    selected = performTournamentSelection();
                 }
                 newPopulation.add(selected);
-                if (hiperparameters.getTournamentSize() == 0) {
-                    source.remove(selected);
-                }
             }
             population.clear();
             population.addAll(newPopulation);
         }
+    }
+
+    private Genotype performRouletteSelection() {
+        if (generationResult == null) {
+            generationResult = new GenerationResult(orderNumber, getBestResult(), getAverageResult(), getWorstResult());
+        }
+        Genotype selected = null;
+        while (selected == null) {
+            int index = random.nextInt(population.size());
+            Genotype current = population.get(index);
+            double probability = (evaluator.evaluate(current) - generationResult.getWorst()) / (generationResult.getBest() - generationResult.getWorst());
+            if (random.nextDouble() <= probability) {
+                selected = current;
+            }
+        }
+        return selected;
+    }
+
+    private Genotype performTournamentSelection() {
+        int index = random.nextInt(population.size());
+        Genotype selected = population.get(index);
+        for (int i = 0; i < hiperparameters.getTournamentSize() - 1; ++i) {
+            index = random.nextInt(population.size());
+            Genotype tournamentGenotype = population.get(index);
+            if (evaluator.evaluate(tournamentGenotype) > evaluator.evaluate(selected)) {
+                selected = tournamentGenotype;
+            }
+        }
+        return selected;
     }
 
     private void performCrossover() {
