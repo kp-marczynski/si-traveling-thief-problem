@@ -8,9 +8,12 @@ Traveling thief problem is composition of traveling salesman problem and knapsac
 * Node.js & npm must be installed prior to run this program
 
 ## Other info
-This program will install c3-chart-maker from npm while generating chart images:
+This program will install c3-chart-maker (MIT licensed) from npm while generating chart images:
 * http://www.the-data-wrangler.com/node-js-chart-rendering-with-c3-and-nightmare/
 
+## How to run
+    gradlew run
+    
 ## Tests for hard_*.ttp files
 
 ### hard_0.ttp
