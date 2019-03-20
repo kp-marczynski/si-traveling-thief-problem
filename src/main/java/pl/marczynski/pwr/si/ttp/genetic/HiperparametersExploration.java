@@ -35,6 +35,7 @@ public class HiperparametersExploration {
 
         Hiperparameters bestHiperparameters = new Hiperparameters(DEFAULT_NUMBER_OF_GENERATIONS, bestPopulationSize, bestCrossProbability, bestMutationProbability, bestTournamentSize, bestEdenSize);
         testEdges(bestHiperparameters);
+        testFinalResults();
     }
 
     private int testSelection() {
