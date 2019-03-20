@@ -1,9 +1,9 @@
 package pl.marczynski.pwr.si.ttp.genetic;
 
 import javafx.util.Pair;
-import pl.marczynski.pwr.si.ttp.utils.ResultSaverService;
 import pl.marczynski.pwr.si.ttp.genetic.description.ProblemDescription;
 import pl.marczynski.pwr.si.ttp.genetic.generation.GenerationResult;
+import pl.marczynski.pwr.si.ttp.utils.ResultSaverService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,7 +122,19 @@ public class HiperparametersExploration {
         performStandardTest(hiperparameters, "edge-big-generation_" + bigGeneration);
     }
 
-    private void performStandardTest(Hiperparameters hiperparameters, String testName) {
+    private void testFinalResults() {
+        int populationSize = 500;
+        Hiperparameters hiperparameters = new Hiperparameters(1000, populationSize, 0.7, 0.25, (int) (populationSize * 0.1), (int) (populationSize * 0.1));
+        String testName = "final" +
+                "-genSize_" + hiperparameters.getNumberOfGenerations() +
+                "-popSize_" + hiperparameters.getPopulationsSize() +
+                "-px_" + hiperparameters.getCrossProbability() +
+                "-pm_" + hiperparameters.getMutationProbability() +
+                "-tour_" + hiperparameters.getTournamentSize();
+        performStandardTest(hiperparameters, testName);
+    }
+
+    protected void performStandardTest(Hiperparameters hiperparameters, String testName) {
         GeneticAlgorithm ga = GeneticAlgorithm.initialize(problemDescription, hiperparameters);
         List<GenerationResult> results = ga.run();
         List<List<String>> mappedResults = results.stream().map(GenerationResult::getResultAsStringList).collect(Collectors.toList());
